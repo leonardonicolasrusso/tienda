@@ -42,6 +42,8 @@
 <body>
 
 <h1>CONTROLES REMOTOS</h1>
+<input type="text" id="buscador" placeholder="Buscar modelo por código, ejemplo 477" oninput="filtrarProductos()" style="display:block; margin: 0 auto 20px; padding: 10px; width: 90%; max-width: 400px; font-size: 16px; border-radius: 5px; border: 1px solid #ccc;">
+
 <div class="grid" id="productGrid"></div>
 
 <div class="cart" id="cart">
@@ -262,6 +264,53 @@ function sendOrder() {
   }
 }
 
+  function filtrarProductos() {
+  const texto = document.getElementById("buscador").value.toLowerCase();
+  productGrid.innerHTML = "";
+
+  products.forEach(product => {
+    if (product.name.toLowerCase().includes(texto)) {
+      const card = document.createElement("div");
+      card.className = "card";
+      card.innerHTML = `
+        <img src="${product.img}" alt="${product.name}" onclick="abrirZoom('${product.img}')">
+        <h3>${product.name}</h3>
+        <p class="price">${formatearPrecio(product.price)}</p>
+        <div class="counter">
+          <button class="btn-minus">-</button>
+          <input type="number" min="1" value="1" class="qty" />
+          <button class="btn-plus">+</button>
+        </div>
+        <button class="add-btn">Agregar</button>
+      `;
+
+      const inputQty = card.querySelector('.qty');
+      const addBtn = card.querySelector('.add-btn');
+      const btnMinus = card.querySelector('.btn-minus');
+      const btnPlus = card.querySelector('.btn-plus');
+
+      btnMinus.onclick = () => {
+        let current = parseInt(inputQty.value);
+        inputQty.value = current > 1 ? current - 1 : 1;
+      };
+
+      btnPlus.onclick = () => {
+        let current = parseInt(inputQty.value);
+        inputQty.value = current + 1;
+      };
+
+      addBtn.onclick = () => {
+        const qty = parseInt(inputQty.value);
+        addToCart(product.id, qty);
+        inputQty.value = 1;
+      };
+
+      productGrid.appendChild(card);
+    }
+  });
+}
+  
+  
 </script>
 </body>
 </html>
