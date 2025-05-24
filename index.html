@@ -50,6 +50,7 @@
   <p><strong>Cantidad total:</strong> <span id="itemCount">0</span></p>
   <p><strong>Total:</strong> <span id="totalPrice">$0</span></p>
   <button onclick="sendOrder()">Enviar pedido por WhatsApp</button>
+  <button onclick="vaciarCarrito()" style="background-color: #e74c3c; margin-left: 10px;">🗑️ Vaciar carrito</button>
 </div>
 
 <div id="floatingCartBar">
@@ -241,6 +242,16 @@ function sendOrder() {
   const url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
   window.open(url, "_blank");
 }
+  function vaciarCarrito() {
+  if (confirm("¿Estás seguro de que querés vaciar el carrito?")) {
+    for (const key in cart) {
+      delete cart[key];
+    }
+    localStorage.removeItem("carritoControles");
+    updateCart();
+  }
+}
+
 </script>
 </body>
 </html>
