@@ -1,4 +1,4 @@
-​<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
@@ -19,10 +19,10 @@
     .add-btn { background-color: #1abc9c; color: white; border: none; padding: 8px 12px; border-radius: 5px; cursor: pointer; }
     .add-btn:hover { background-color: #16a085; }
     .cart { margin-top: 60px; margin-bottom: 60px; padding: 20px; background: white; border-radius: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); padding-bottom: 80px; }
-    .cart p { font-size: 16px; margin: 10px 0; }
     .cart-summary { font-size: 14px; color: #333; margin-top: 10px; }
     .cart-item { margin-bottom: 15px; border-bottom: 1px solid #ccc; padding-bottom: 10px; position: relative; }
     .cart-title { font-weight: bold; margin-bottom: 10px; font-size: 16px; }
+    .cart-thumb { width: 40px; height: 40px; object-fit: contain; margin-right: 8px; vertical-align: middle; border-radius: 5px; }
     .cart button { background-color: #27ae60; color: white; border: none; padding: 10px 20px; font-size: 16px; border-radius: 5px; cursor: pointer; margin-top: 10px; }
     .cart button:hover { background-color: #219150; }
     .edit-controls { display: flex; align-items: center; gap: 8px; margin-top: 5px; }
@@ -36,13 +36,12 @@
     #zoomModal img { max-width: 90%; max-height: 80%; border-radius: 10px; }
     #zoomModal button { margin-top: 20px; background-color: white; color: black; border: none; padding: 8px 16px; font-size: 16px; border-radius: 8px; cursor: pointer; }
     #zoomModal button:hover { background-color: #ddd; }
-    .cart-thumb { width: 40px; height: 40px; object-fit: contain; margin-right: 8px; vertical-align: middle; border-radius: 5px; }
   </style>
 </head>
 <body>
 
 <h1>CONTROLES REMOTOS</h1>
-<input type="text" id="buscador" placeholder="Buscar modelo por código, ejemplo 477" oninput="filtrarProductos()" style="display:block; margin: 0 auto 20px; padding: 10px; width: 90%; max-width: 400px; font-size: 16px; border-radius: 5px; border: 1px solid #ccc;">
+<input type="text" id="buscador" placeholder="Buscar modelo..." oninput="filtrarProductos()" style="display:block; margin: 0 auto 20px; padding: 10px; width: 90%; max-width: 400px; font-size: 16px; border-radius: 5px; border: 1px solid #ccc;">
 
 <div class="grid" id="productGrid"></div>
 
@@ -66,28 +65,8 @@
 </div>
 
 <script>
-const products = [
-  { id: 6, name: "LCD 446", price: 2990, img: "https://d22fxaf9t8d39k.cloudfront.net/5401a70392c91ef2ac35a7f02084c4aa5ea7f5c14b307b2d3e66ebcafa95db7991218.jpeg" },
-  { id: 7, name: "LCD 477", price: 2990, img: "https://d22fxaf9t8d39k.cloudfront.net/24c44fbf9fd1d172a312e632a1d91add93de9c5ee32f72eecf98dee9a1b6f62191218.jpeg" },
-  { id: 8, name: "LCD 486", price: 2990, img: "https://d22fxaf9t8d39k.cloudfront.net/e414de4d851b8b8636918a453a14f0456de8992f746e3b4bdcd24d9151ef132d91218.jpeg" },
-  { id: 9, name: "LCD 491", price: 2990, img: "https://d22fxaf9t8d39k.cloudfront.net/f071d47ae46a42c922cbc4166f0f4d1b46b2a8f8bbcd4202f964c54ea3b94bce91218.jpeg" },
-  { id:10, name: "LCD 500", price: 2990, img: "https://d22fxaf9t8d39k.cloudfront.net/ed750cad68d3d534f68454a675ab24a416d1b0a7142b6099d1ba46e5629984f691218.jpeg" },
-  { id:11, name: "LCD 506", price: 2990, img: "https://d22fxaf9t8d39k.cloudfront.net/bc2a2596a4be764b5615892afaa48b8e85829bccedd050654abbc4c30784822591218.jpeg" },
-  { id:12, name: "LCD 509", price: 2990, img: "https://d22fxaf9t8d39k.cloudfront.net/a12a7312ef1c19e0cce1f2d22b3a83e6cb5b38034bc076cccc4d3b44bf8185f591218.jpeg" },
-  { id:13, name: "LCD 520", price: 2990, img: "https://d22fxaf9t8d39k.cloudfront.net/26eca887b190bd9cccf7aa3c231bd7e71cad1e106aab06e1a87a15e98159b8b491218.png" },
-  { id:14, name: "LCD 525", price: 2990, img: "https://d22fxaf9t8d39k.cloudfront.net/04a30007cf0f767212bf8f3d2c632cf9d44e5627c1a1c2a8cbc5f94142bc74da91218.jpeg" },
-  { id:15, name: "LCD 532", price: 2990, img: "https://d22fxaf9t8d39k.cloudfront.net/aa4ec5fe21ba99b607582e13758596847d1e961706ceb8e3555152be2bc321c791218.jpeg" },
-  { id:16, name: "LCD 560", price: 2990, img: "https://d22fxaf9t8d39k.cloudfront.net/93ed9a69c9c1ae1acb7cd4a27dd5353b2017eb0eae496132eab64aa7d7b5f54c91218.png" },
-  { id:17, name: "LCD 576", price: 2990, img: "https://d22fxaf9t8d39k.cloudfront.net/ceb9f6ca7274bb8a09f88057f2100e7013413ed7029468293f918e96dc7b666a91218.png" },
-  { id:18, name: "LCD 585", price: 2990, img: "https://d22fxaf9t8d39k.cloudfront.net/37a0123a30b32e20415e4d5bf5ea4c6519ea3e178a805e221041017003592a1991218.png" },
-  { id:19, name: "LCD 589", price: 2990, img: "https://d22fxaf9t8d39k.cloudfront.net/0321964ef0d7bb86eff8869125b063684250723bd5392371af1245607f9d9f7f91218.png" },
-  { id:20, name: "LCD 591", price: 2990, img: "https://d22fxaf9t8d39k.cloudfront.net/5d30e4c8e1904fe8049b09a9a89d80e64034ef3374b3faeb9b1f2a3fba49860f91218.png" },
-  { id:21, name: "LCD 594", price: 2990, img: "https://d22fxaf9t8d39k.cloudfront.net/e414eea118742a0233f69946d5c8e48645f07aee98a67a26f6bc7740cbd99a9791218.png" },
-  { id:22, name: "LCD 597", price: 2990, img: "https://d22fxaf9t8d39k.cloudfront.net/5c90cd172418951f53485d4b215819907f816f22e01a7be09c8dd206dcd0354791218.png" },
-{ id:23, name: "LCD 613", price: 2990, img: "https://d22fxaf9t8d39k.cloudfront.net/cfc2fd6345ff89fd923a39b4e50f3e0e8d42e425f96561771d40a5972ecc256091218.png" },
-
-];
-
+const products = [];
+const sheetURL = "https://opensheet.elk.sh/1syQDKQOns9acBo3J-2e6KD7RuCoc7o2Cyzu3R80cnFw/Hoja1";
 const cart = {};
 const productGrid = document.getElementById("productGrid");
 const itemCount = document.getElementById("itemCount");
@@ -98,68 +77,54 @@ const floatingTotal = document.getElementById("floatingTotal");
 const savedCart = localStorage.getItem("carritoControles");
 if (savedCart) {
   Object.assign(cart, JSON.parse(savedCart));
-  updateCart(); // Mostrar el carrito al cargar la página
+  updateCart();
 }
+
+fetch(sheetURL)
+  .then(res => res.json())
+  .then(data => {
+    products.push(...data.map((p, i) => ({
+      id: i + 1,
+      name: p.name,
+      price: parseFloat(p.price),
+      img: p.img
+    })));
+    filtrarProductos();
+  });
+  
+ function cargarProductos() {
+  fetch("https://opensheet.elk.sh/1syQDKQOns9acBo3J-2e6KD7RuCoc7o2Cyzu3R80cnFw/Hoja1")
+    .then(res => res.json())
+    .then(data => {
+      products.length = 0; // limpia el array actual
+      products.push(...data.map((p, i) => ({
+        id: i + 1,
+        name: p.name,
+        price: parseFloat(p.price),
+        img: p.img
+      })));
+      filtrarProductos(); // actualiza la grilla
+    });
+}
+
+cargarProductos(); // carga inicial
+setInterval(cargarProductos, 60000); // recarga cada 60 segundos
 
 
 function formatearPrecio(num) {
   return "$" + num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 }
-
 function abrirZoom(src) {
   document.getElementById("zoomImg").src = src;
   document.getElementById("zoomModal").style.display = "flex";
 }
-
 function cerrarZoom() {
   document.getElementById("zoomModal").style.display = "none";
 }
-
 function deleteProduct(name) {
   delete cart[name];
   updateCart();
 }
-
-products.forEach(product => {
-  const card = document.createElement("div");
-  card.className = "card";
-
-  card.innerHTML = `
-    <img src="${product.img}" alt="${product.name}" onclick="abrirZoom('${product.img}')">
-    <h3>${product.name}</h3>
-    <p class="price">${formatearPrecio(product.price)}</p>
-    <div class="counter">
-      <button class="btn-minus">-</button>
-      <input type="number" min="1" value="1" class="qty" />
-      <button class="btn-plus">+</button>
-    </div>
-    <button class="add-btn">Agregar</button>
-  `;
-
-  const inputQty = card.querySelector('.qty');
-  const addBtn = card.querySelector('.add-btn');
-  const btnMinus = card.querySelector('.btn-minus');
-  const btnPlus = card.querySelector('.btn-plus');
-
-  btnMinus.onclick = () => {
-    let current = parseInt(inputQty.value);
-    inputQty.value = current > 1 ? current - 1 : 1;
-  };
-
-  btnPlus.onclick = () => {
-    let current = parseInt(inputQty.value);
-    inputQty.value = current + 1;
-  };
-
-  addBtn.onclick = () => {
-    const qty = parseInt(inputQty.value);
-    addToCart(product.id, qty);
-    inputQty.value = 1;
-  };
-
-  productGrid.appendChild(card);
-});
-
 function addToCart(id, qty) {
   const product = products.find(p => p.id === id);
   if (cart[product.name]) {
@@ -169,49 +134,36 @@ function addToCart(id, qty) {
   }
   updateCart();
 }
-
 function updateCart() {
   let totalItems = 0;
   let totalCost = 0;
   cartSummary.innerHTML = "";
-
   for (const key in cart) {
     const item = cart[key];
     const subtotal = item.qty * item.price;
     totalItems += item.qty;
     totalCost += subtotal;
-
     const itemDiv = document.createElement("div");
     itemDiv.className = "cart-item";
-itemDiv.innerHTML = `
-  <img src="${item.img}" alt="${item.name}" class="cart-thumb">
-  <strong>${item.name}</strong> | ${formatearPrecio(item.price)} c/u | x${item.qty} | Total: ${formatearPrecio(subtotal)}
-  <div class="edit-controls">
-    <button onclick="editQty('${key}', -1)">-</button>
-    <input type="number" min="1" value="${item.qty}" onchange="setQty('${key}', this.value)">
-    <button onclick="editQty('${key}', 1)">+</button>
-  </div>
-  <button class="delete-btn" onclick="deleteProduct('${key}')" title="Eliminar">&times;</button>
-`;
-
+    itemDiv.innerHTML = `
+      <img src="${item.img}" class="cart-thumb">
+      <strong>${item.name}</strong> | ${formatearPrecio(item.price)} c/u | x${item.qty} | Total: ${formatearPrecio(subtotal)}
+      <div class="edit-controls">
+        <button onclick="editQty('${key}', -1)">-</button>
+        <input type="number" min="1" value="${item.qty}" onchange="setQty('${key}', this.value)">
+        <button onclick="editQty('${key}', 1)">+</button>
+      </div>
+      <button class="delete-btn" onclick="deleteProduct('${key}')" title="Eliminar">×</button>
+    `;
     cartSummary.appendChild(itemDiv);
   }
-
   itemCount.textContent = totalItems;
   totalPrice.textContent = formatearPrecio(totalCost);
-
-  if (totalItems > 0) {
-    floatingBar.style.display = "flex";
-    floatingTotal.textContent = `TOTAL: ${formatearPrecio(totalCost)}`;
-  } else {
-    floatingBar.style.display = "none";
-  }
+  floatingBar.style.display = totalItems > 0 ? "flex" : "none";
+  floatingTotal.textContent = `TOTAL: ${formatearPrecio(totalCost)}`;
   localStorage.setItem("carritoControles", JSON.stringify(cart));
-  if (Object.keys(cart).length === 0) {
-  localStorage.removeItem("carritoControles");
+  if (Object.keys(cart).length === 0) localStorage.removeItem("carritoControles");
 }
-}
-
 function editQty(name, change) {
   if (cart[name]) {
     cart[name].qty += change;
@@ -219,7 +171,6 @@ function editQty(name, change) {
     updateCart();
   }
 }
-
 function setQty(name, newQty) {
   const qty = parseInt(newQty);
   if (cart[name] && qty > 0) {
@@ -227,34 +178,28 @@ function setQty(name, newQty) {
     updateCart();
   }
 }
-
 function scrollToCart() {
   document.getElementById("cart").scrollIntoView({ behavior: "smooth" });
 }
-
 function sendOrder() {
   if (Object.keys(cart).length === 0) {
     alert("Tu carrito está vacío.");
     return;
   }
-
   let message = "Hola, quiero hacer un pedido:\nPEDIDO\n";
   for (const key in cart) {
     const item = cart[key];
     const subtotal = item.price * item.qty;
     message += `- ${item.name} | ${formatearPrecio(item.price)} | x${item.qty} | ${formatearPrecio(subtotal)}\n`;
   }
-
   const total = Object.values(cart).reduce((sum, item) => sum + item.qty * item.price, 0);
   const qty = Object.values(cart).reduce((sum, item) => sum + item.qty, 0);
-
   message += `\nCantidad total: ${qty}\nTotal: ${formatearPrecio(total)}`;
-
   const phone = "5493416654727";
   const url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
   window.open(url, "_blank");
 }
-  function vaciarCarrito() {
+function vaciarCarrito() {
   if (confirm("¿Estás seguro de que querés vaciar el carrito?")) {
     for (const key in cart) {
       delete cart[key];
@@ -263,11 +208,9 @@ function sendOrder() {
     updateCart();
   }
 }
-
-  function filtrarProductos() {
+function filtrarProductos() {
   const texto = document.getElementById("buscador").value.toLowerCase();
   productGrid.innerHTML = "";
-
   products.forEach(product => {
     if (product.name.toLowerCase().includes(texto)) {
       const card = document.createElement("div");
@@ -283,34 +226,27 @@ function sendOrder() {
         </div>
         <button class="add-btn">Agregar</button>
       `;
-
       const inputQty = card.querySelector('.qty');
       const addBtn = card.querySelector('.add-btn');
       const btnMinus = card.querySelector('.btn-minus');
       const btnPlus = card.querySelector('.btn-plus');
-
       btnMinus.onclick = () => {
         let current = parseInt(inputQty.value);
         inputQty.value = current > 1 ? current - 1 : 1;
       };
-
       btnPlus.onclick = () => {
         let current = parseInt(inputQty.value);
         inputQty.value = current + 1;
       };
-
       addBtn.onclick = () => {
         const qty = parseInt(inputQty.value);
         addToCart(product.id, qty);
         inputQty.value = 1;
       };
-
       productGrid.appendChild(card);
     }
   });
 }
-  
-  
 </script>
 </body>
 </html>
