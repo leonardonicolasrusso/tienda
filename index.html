@@ -28,8 +28,8 @@
     .edit-controls { display: flex; align-items: center; gap: 8px; margin-top: 5px; }
     .edit-controls button { padding: 4px 10px; background: #ddd; border: none; cursor: pointer; font-size: 14px; }
     .edit-controls input { width: 35px; text-align: center; }
-    .delete-btn { background: none; color: #999; border: none; cursor: pointer; font-size: 18px; position: absolute; top: 0; right: 0; padding: 5px; }
-    .delete-btn:hover { color: #e74c3c; }
+    .delete-btn { background: none !important; color: #e74c3c !important; font-weight: bold !important; border: none !important; cursor: pointer !important; font-size: 20px !important; position: absolute !important; top: 0; right: 0; padding: 5px; }
+    .delete-btn:hover { color: #c0392b !important; }
     #floatingCartBar { display: none; position: fixed; bottom: 0; left: 0; right: 0; background: #1abc9c; color: white; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; z-index: 1000; font-size: 16px; }
     #floatingCartBar button { background: none; border: none; color: white; font-weight: bold; font-size: 16px; cursor: pointer; }
     #zoomModal { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.85); justify-content: center; align-items: center; flex-direction: column; z-index: 2000; }
@@ -180,8 +180,7 @@ function updateCart() {
         <input type="number" min="1" value="${item.qty}" onchange="setQty('${key}', this.value)">
         <button onclick="editQty('${key}', 1)">+</button>
       </div>
-      <button class="delete-btn" onclick="deleteProduct('${key}')" title="Eliminar">&#128465;</button>
-    `;
+      <button class="delete-btn" onclick="deleteProduct('${key}')" title="Eliminar">&times;</button> `;
     cartSummary.appendChild(itemDiv);
   }
 
