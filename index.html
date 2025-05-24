@@ -93,6 +93,12 @@ const totalPrice = document.getElementById("totalPrice");
 const cartSummary = document.getElementById("cartSummary");
 const floatingBar = document.getElementById("floatingCartBar");
 const floatingTotal = document.getElementById("floatingTotal");
+const savedCart = localStorage.getItem("carritoControles");
+if (savedCart) {
+  Object.assign(cart, JSON.parse(savedCart));
+  updateCart(); // Mostrar el carrito al cargar la página
+}
+
 
 function formatearPrecio(num) {
   return "$" + num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
@@ -198,6 +204,10 @@ itemDiv.innerHTML = `
   } else {
     floatingBar.style.display = "none";
   }
+  localStorage.setItem("carritoControles", JSON.stringify(cart));
+  if (Object.keys(cart).length === 0) {
+  localStorage.removeItem("carritoControles");
+}
 }
 
 function editQty(name, change) {
