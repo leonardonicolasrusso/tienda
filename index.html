@@ -36,6 +36,7 @@
     #zoomModal img { max-width: 90%; max-height: 80%; border-radius: 10px; }
     #zoomModal button { margin-top: 20px; background-color: white; color: black; border: none; padding: 8px 16px; font-size: 16px; border-radius: 8px; cursor: pointer; }
     #zoomModal button:hover { background-color: #ddd; }
+    .cart-thumb { width: 40px; height: 40px; object-fit: contain; margin-right: 8px; vertical-align: middle; border-radius: 5px; }
   </style>
 </head>
 <body>
@@ -173,14 +174,17 @@ function updateCart() {
 
     const itemDiv = document.createElement("div");
     itemDiv.className = "cart-item";
-    itemDiv.innerHTML = `
-      <strong>${item.name}</strong> | ${formatearPrecio(item.price)} c/u | x${item.qty} | Total: ${formatearPrecio(subtotal)}
-      <div class="edit-controls">
-        <button onclick="editQty('${key}', -1)">-</button>
-        <input type="number" min="1" value="${item.qty}" onchange="setQty('${key}', this.value)">
-        <button onclick="editQty('${key}', 1)">+</button>
-      </div>
-      <button class="delete-btn" onclick="deleteProduct('${key}')" title="Eliminar">&times;</button> `;
+itemDiv.innerHTML = `
+  <img src="${item.img}" alt="${item.name}" class="cart-thumb">
+  <strong>${item.name}</strong> | ${formatearPrecio(item.price)} c/u | x${item.qty} | Total: ${formatearPrecio(subtotal)}
+  <div class="edit-controls">
+    <button onclick="editQty('${key}', -1)">-</button>
+    <input type="number" min="1" value="${item.qty}" onchange="setQty('${key}', this.value)">
+    <button onclick="editQty('${key}', 1)">+</button>
+  </div>
+  <button class="delete-btn" onclick="deleteProduct('${key}')" title="Eliminar">&times;</button>
+`;
+
     cartSummary.appendChild(itemDiv);
   }
 
