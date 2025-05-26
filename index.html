@@ -79,19 +79,6 @@ if (savedCart) {
   Object.assign(cart, JSON.parse(savedCart));
   updateCart();
 }
-
-fetch(sheetURL)
-  .then(res => res.json())
-  .then(data => {
-    products.push(...data.map((p, i) => ({
-      id: i + 1,
-      name: p.name,
-      price: parseFloat(p.price),
-      img: p.img
-    })));
-    productGrid.innerHTML = "";
-    filtrarProductos();
-  });
   
  function cargarProductos() {
   fetch("https://opensheet.elk.sh/1syQDKQOns9acBo3J-2e6KD7RuCoc7o2Cyzu3R80cnFw/Hoja1")
@@ -109,7 +96,7 @@ fetch(sheetURL)
 }
 
 cargarProductos(); // carga inicial
-setInterval(cargarProductos, 60000); // recarga cada 60 segundos
+setInterval(cargarProductos, 30000); // recarga cada 30 segundos
 
 
 function formatearPrecio(num) {
