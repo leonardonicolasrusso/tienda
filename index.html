@@ -38,6 +38,7 @@
     #zoomModal button:hover { background-color: #ddd; }
   </style>
 </head>
+  
 <body>
 
 <h1>CONTROLES REMOTOS</h1>
@@ -230,11 +231,29 @@ function filtrarProductos() {
         const qty = parseInt(inputQty.value);
         addToCart(product.id, qty);
         inputQty.value = 1;
+          mostrarToast(`${qty} unidad${qty > 1 ? 'es' : ''} de "${product.name}" agregada${qty > 1 ? 's' : ''} al carrito`);
+  inputQty.value = 1;
       };
       productGrid.appendChild(card);
     }
   });
 }
+
+ function mostrarToast(mensaje) {
+  const toast = document.getElementById("toast");
+  toast.textContent = mensaje;
+  toast.style.display = "block";
+  toast.style.opacity = "1";
+  setTimeout(() => {
+    toast.style.opacity = "0";
+    setTimeout(() => toast.style.display = "none", 300);
+  }, 2000);
+}
+
 </script>
+  <div id="toast" style="display:none; position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+background-color: #2ecc71; color: white; padding: 12px 20px; border-radius: 6px; font-size: 16px;
+box-shadow: 0 4px 6px rgba(0,0,0,0.1); z-index: 9999; transition: opacity 0.3s ease;">¡Agregado al carrito!</div>
+  
 </body>
 </html>
