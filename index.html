@@ -165,6 +165,12 @@ function editQty(name, change) {
     cart[name].qty += change;
     if (cart[name].qty < 1) cart[name].qty = 1;
     updateCart();
+    
+    const cantidad = cart[name].qty;
+    const mensaje = change > 0 
+      ? `Sumaste 1 unidad de "${name}" (total: ${cantidad})`
+      : `Quitaste 1 unidad de "${name}" (total: ${cantidad})`;
+    mostrarToast(mensaje);
   }
 }
 function setQty(name, newQty) {
@@ -172,6 +178,7 @@ function setQty(name, newQty) {
   if (cart[name] && qty > 0) {
     cart[name].qty = qty;
     updateCart();
+    mostrarToast(`Modificaste la cantidad de "${name}" a ${qty} unidad${qty > 1 ? 'es' : ''}`);
   }
 }
 function scrollToCart() {
