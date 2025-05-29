@@ -263,6 +263,15 @@ function filtrarProductos() {
     setTimeout(() => toast.style.display = "none", 300);
   }, 2000);
 }
+  
+  function deleteProduct(name) {
+  const confirmar = confirm(`¿Querés eliminar "${name}" del carrito?`);
+  if (confirmar) {
+    delete cart[name];
+    updateCart();
+  }
+}
+
 
 </script>
   <div id="toast" style="display:none; position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%);
