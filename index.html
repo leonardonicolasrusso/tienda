@@ -230,7 +230,7 @@ function sendOrder() {
   const total = Object.values(cart).reduce((sum, item) => sum + item.qty * item.price, 0);
   const qty = Object.values(cart).reduce((sum, item) => sum + item.qty, 0);
   message += `\nCantidad total: ${qty}\nTotal: ${formatearPrecio(total)}`;
-  const phone = "5493416654727";
+  const phone = "5493415851441";
   const url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
   window.open(url, "_blank");
 }
